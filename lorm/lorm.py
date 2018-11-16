@@ -2,7 +2,7 @@ import sqlite3
 
 __database__ = None
 __models__ = None
-__database_name__ = "test.db"
+__database_name__ = "test.sqlite3"
 
 
 def initialize(models, database_name="test.sqlite3"):
