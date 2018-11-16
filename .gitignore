@@ -23,7 +23,11 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.idea
 MANIFEST
+*.db
+*.sqlite3
+tests/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
