@@ -27,6 +27,7 @@ class ActiveRecord:
         values = " VALUES("
         for key, value in self.__dict__.items():
             if value is not None and "__" not in key and key != "id":
+                print(key, value)
                 columns += key + ", "
                 values += "'" + str(value.value) + "', "
         columns = columns[:-2] + ")"
@@ -60,15 +61,21 @@ class ActiveRecord:
         database().commit()
         print(f"DELETED {self.to_s()}\n")
 
-    def belongs_to(self, relation):
+    def belongs_to(self, relation, key=None):
         def getter():
-            relation_name = relation.__name__.lower()
+            if key is None:
+                relation_name = relation.__name__.lower()
+            else:
+                relation_name = key.column[:-3]
             if self.__dict__["__" + relation_name + "__"] is None:
                 self.__dict__["__" + relation_name] = relation.find(self.__dict__[relation_name + "_id"].value)
             return self.__dict__["__" + relation_name]
 
         def setter(record):
-            __class_name__ = inflection.underscore(record.__class__.__name__.lower())
+            if key is None:
+                __class_name__ = inflection.underscore(record.__class__.__name__.lower())
+            else:
+                __class_name__ = key.column[:-3]
             self.__dict__[__class_name__ + "_id"].value = record.id.value
             self.__dict__["__" + __class_name__] = record
 

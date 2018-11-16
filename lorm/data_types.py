@@ -59,10 +59,13 @@ class Timestamp(Column):
 
 
 class ForeignKey(Column):
-    def __init__(self, reference, value=-1):
+    def __init__(self, reference, value=-1, name=None):
         Column.__init__(self, value)
         self.data_type = int
         self.type = "INTEGER"
         self.reference = reference
-        column = inflection.underscore(reference.__name__.lower() + "_id")
+        if name is None:
+            column = inflection.underscore(reference.__name__.lower() + "_id")
+        else:
+            column = name + "_id"
         self.misc = f"FOREIGN KEY({column}) REFERENCES {reference.table_name()}(id)"
