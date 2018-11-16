@@ -65,7 +65,7 @@ class ForeignKey(Column):
         self.type = "INTEGER"
         self.reference = reference
         if name is None:
-            column = inflection.underscore(reference.__name__.lower() + "_id")
+            self.column = inflection.underscore(reference.__name__.lower() + "_id")
         else:
-            column = name + "_id"
-        self.misc = f"FOREIGN KEY({column}) REFERENCES {reference.table_name()}(id)"
+            self.column = name + "_id"
+        self.misc = f"FOREIGN KEY({self.column}) REFERENCES {reference.table_name()}(id)"
